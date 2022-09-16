@@ -16,10 +16,20 @@ namespace StatisticVisualizerLib.Database
         /// </summary>
         public DbSet<Person> People { get; set; }
 
+        private readonly string _connectionString;
+
+        /// <summary>
+        /// .ctor
+        /// </summary>
+        public DatabaseContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         /// <inheritdoc/>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=LAPTOP-89OES6MB;Database=StatisticVisualizer;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         /// <inheritdoc/>

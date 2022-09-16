@@ -6,7 +6,7 @@ using StatisticVisualizerLib.Services.StatisticService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var dbContext = new Database();
+var dbContext = new Database(builder.Configuration.GetConnectionString("Ssms"));
 dbContext.Database.Migrate();
 
 // Add services to the container.

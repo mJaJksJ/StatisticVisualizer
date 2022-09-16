@@ -8,6 +8,6 @@ namespace StatisticVisualizer.Database
         /// <summary>
         /// .ctor
         /// </summary>
-        public Database() : base() { }
+        public Database(string connectionString) : base(connectionString) { }
     }
 }
