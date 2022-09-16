@@ -11,6 +11,7 @@
     "http-proxy-middleware": "^0.19.1",
     "jquery": "^3.6.0",
     "merge": "^2.1.1",
+    "nswag": "^13.17.0",
     "oidc-client": "^1.11.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -53,7 +54,7 @@
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/",
-    "generate-api": "nswag swagger2tsclient /runtime:NetCore60 /Input:https://localhost:7245/swagger/v1/swagger.json /Output:src/api.ts /InjectionTokenType:InjectionToken /Template:Axios /OperationGenerationMode:SingleClientFromOperationId /ClassName:ApiViolaTricolor"
+    "generate-api": "nswag swagger2tsclient /runtime:NetCore60 /Input:https://localhost:7299/swagger/v1/swagger.json /Output:src/api.ts /InjectionTokenType:InjectionToken /Template:Axios /OperationGenerationMode:SingleClientFromOperationId /ClassName:ApiViolaTricolor"
   },
   "eslintConfig": {
     "extends": [
