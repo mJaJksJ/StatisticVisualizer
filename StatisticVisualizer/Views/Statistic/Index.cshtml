@@ -1,0 +1,36 @@
+@model StatisticModel
+@{
+    ViewData["Title"] = "Статистика";
+}
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Город</th>
+                <th>Пол</th>
+                <th>Возраст</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var p in Model?.People ?? Array.Empty<PersonModel>())
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.City</td>
+                    <td>@p.IsMale</td>
+                    <td>@p.Age</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot class="btn-group">
+            @for (var i = 0; i <= (Model?.PageInfo?.TotalPages ?? 0); i++)
+            {
+                var classStr = Model?.PageInfo?.PageNumber == i ? "btn btn-default selected btn-primary" : "btn btn-default";
+                <a class=@classStr asp-area="" asp-controller="Statistic" asp-action="Index" asp-route-pageNumber=@i>@i</a>
+            }
+        </tfoot>
+    </table>
+</div>

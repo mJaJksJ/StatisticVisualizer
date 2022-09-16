@@ -22,7 +22,6 @@ namespace StatisticVisualizer.Controllers
         /// <summary>
         /// Страница загрузки файла
         /// </summary>
-        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
@@ -32,7 +31,6 @@ namespace StatisticVisualizer.Controllers
         /// Получение файла
         /// </summary>
         /// <param name="file"></param>
-        /// <returns></returns>
         [HttpPost]
         public IActionResult Index(IFormFile file)
         {

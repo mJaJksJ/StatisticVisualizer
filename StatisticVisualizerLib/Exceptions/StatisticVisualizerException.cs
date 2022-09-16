@@ -1,6 +1,5 @@
 namespace StatisticVisualizerLib.Exceptions
 {
-
     /// <summary>
     /// Класс Iris ошибок
     /// </summary>
