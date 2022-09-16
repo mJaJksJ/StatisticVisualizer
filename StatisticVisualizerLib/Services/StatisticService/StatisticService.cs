@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using StatisticVisualizer.Models;
 using StatisticVisualizerLib.Database;
 
@@ -8,6 +9,8 @@ namespace StatisticVisualizerLib.Services.StatisticService
     public class StatisticService : IStatisticService
     {
         private readonly DatabaseContext _context;
+
+        private static readonly ILogger Log = Serilog.Log.ForContext<StatisticService>();
 
         /// <summary>
         /// .ctor

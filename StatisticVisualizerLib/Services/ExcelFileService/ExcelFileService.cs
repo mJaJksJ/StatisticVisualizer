@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using Serilog;
 using StatisticVisualizerLib.Database;
 using StatisticVisualizerLib.Database.Entities;
 using StatisticVisualizerLib.Exceptions;
@@ -18,6 +19,8 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
         private int _cityIndex;
         private int _isMaleIndex;
         private int _ageIndex;
+
+        private static readonly ILogger Log = Serilog.Log.ForContext<ExcelFileService>();
 
         /// <summary>
         /// .ctor
@@ -36,6 +39,7 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
             }
             catch (NotExcelFileException e)
             {
+                Log.Error(e.Message, e);
                 return (0, 0, e.Message);
             }
 
@@ -84,6 +88,7 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
                 }
             }
 
+            Log.Information($"Proccesed rows. Total: {sheet.LastRowNum}. Succes: {successCount}");
             return (sheet.LastRowNum, successCount, "");
         }
 
