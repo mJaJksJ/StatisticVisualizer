@@ -16,7 +16,7 @@
             <tr>
                 <td>
                     <table class="table" style="width: 50vw;">
-                        <thead>
+                        <thead class="text-white" style="background-color: #4DE382">
                             <tr>
                                 <th>Имя</th>
                                 <th>Город</th>
@@ -40,7 +40,8 @@
                             @for (var i = 0; i <= (Model?.PageInfo?.TotalPages ?? 0); i++)
                             {
                                 var classStr = Model?.PageInfo?.PageNumber == i ? "btn btn-default selected btn-primary" : "btn btn-default";
-                                <a class=@classStr asp-area="" asp-controller="Statistic" asp-action="Index" asp-route-pageNumber=@i asp-route-isOnlyMale=@Model?.IsOnlyMale>@i</a>
+                                var style = Model?.PageInfo?.PageNumber == i ? "background-color: #148F2A" : "";
+                                <a class=@classStr style=@style asp-area="" asp-controller="Statistic" asp-action="Index" asp-route-pageNumber=@i asp-route-isOnlyMale=@Model?.IsOnlyMale>@i</a>
                             }
                         </tfoot>
                     </table>
@@ -68,8 +69,8 @@
                                 {
                                     data: [men, women],
                                     backgroundColor: [
-                                        "#5B9BD5",
-                                        "#C56BAE",
+                                        "#4DE382",
+                                        "#148F2A",
                                     ]
                                 }]
                         };
