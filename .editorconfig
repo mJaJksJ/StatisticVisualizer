@@ -345,7 +345,7 @@ dotnet_diagnostic.CA1304.severity = silent
 dotnet_diagnostic.CA1040.severity = suggestion
 
 # CA1032
-dotnet_diagnostic.CA1032.severity = suggestion
+dotnet_diagnostic.CA1032.severity = none
 
 # CA2235
 dotnet_diagnostic.CA2235.severity = warning
