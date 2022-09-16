@@ -1,17 +1,19 @@
-import React, { useRef } from 'react';
-import { ApiViolaTricolor } from '../../../api';
+import React, { useRef, useState } from 'react';
+import { ApiViolaTricolor, IUploadModel, FileParameter } from '../../../api';
 
 const Upload: React.FC = () => {
     const api = useRef(new ApiViolaTricolor());
+    const [uploadModel, setUploadModel] = useState<IUploadModel>();
+    const [file, setFile] = useState<File>();
 
     return (
         <>
             <div className="text-center">
                 <h1 className="display-4">Загрузка Excel файла</h1>
                 <p>
-                    <h3>
+                    <b>
                         Допустимые форматы:<br />
-                    </h3>
+                    </b>
                     <i>
                         .xls, .xlsx
                     </i>
@@ -24,22 +26,22 @@ const Upload: React.FC = () => {
                         * Возраст - целое число
                     </i>
                 </p>
-                <form method="post" encType="multipart/form-data">
-                    <p><input type="file" name="file" /></p>
-                    <p><input type="submit" value="Загрузить" /></p>
+                <form method='POST' action='api/v1/upload' encType='multipart/form-data'>
+                    <p><input type="file" name="file" onChange={e => { setFile(e.target.files ? e.target.files[0] : {} as File) }} /></p>
+                    <p><input style={{ 'backgroundColor': '#148F2A' }} type='submit' className="mt-2 text-white" value='Загрузить' /></p>
                     <p>
-                        {/*if(Model != null)
                         {
-                            <span>Файл <b>@Model.FileName</b><br /></span>
-                @if (string.IsNullOrEmpty(Model.Error))
-                        {
-                            <span>Всего строк обработано: @Model.TotalProcessedRows<br />Успешно: @Model.SuccesedProcessedRows</span>
+                            !!uploadModel
+                                ? <>
+                                    <span>Файл <b>{uploadModel.fileName}</b><br /></span>
+                                    {
+                                        uploadModel.error
+                                            ? <span><b>Error:</b>{uploadModel.error}</span>
+                                            : < span>Всего строк обработано: {uploadModel.totalProcessedRows}<br />Успешно: {uploadModel.succesedProcessedRows}</span>
+                                    }
+                                </>
+                                : null
                         }
-                        else
-                        {
-                            <span><b>Error:</b>@Model.Error</span>
-                        }
-            }*/}
                     </p>
                 </form>
             </div>
@@ -48,3 +50,8 @@ const Upload: React.FC = () => {
 }
 
 export default Upload
+
+function sleep(arg0: number) {
+    throw new Error('Function not implemented.');
+}
+
