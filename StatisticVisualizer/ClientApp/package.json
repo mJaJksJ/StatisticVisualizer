@@ -54,7 +54,7 @@
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/",
-    "generate-api": "nswag swagger2tsclient /runtime:NetCore60 /Input:https://localhost:7299/swagger/v1/swagger.json /Output:src/api.ts /InjectionTokenType:InjectionToken /Template:Axios /OperationGenerationMode:SingleClientFromOperationId /ClassName:ApiViolaTricolor"
+    "generate-api": "nswag swagger2tsclient /runtime:NetCore60 /Input:https://localhost:7299/swagger/v1/swagger.json /Output:src/api.ts /InjectionTokenType:InjectionToken /Template:Axios /OperationGenerationMode:SingleClientFromOperationId /ClassName:ApiStatisticVisualizer"
   },
   "eslintConfig": {
     "extends": [
