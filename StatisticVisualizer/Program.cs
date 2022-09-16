@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using StatisticVisualizer.Database;
 using StatisticVisualizerLib.Database;
 using StatisticVisualizerLib.Services.ExcelFileService;
+using StatisticVisualizerLib.Services.StatisticService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton(dbContext as DatabaseContext);
 builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 var app = builder.Build();
 
