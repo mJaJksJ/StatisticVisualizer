@@ -26,15 +26,22 @@ namespace StatisticVisualizer.Controllers
         /// <summary>
         /// Страница статистики
         /// </summary>
-        public IActionResult Index(int pageNumber = 0)
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="isOnlyMale">Фильтрация по полу (null - Ж+М, true - М, false - Ж)</param>
+        /// <returns></returns>
+        public IActionResult Index(int pageNumber = 0, bool? isOnlyMale = null)
         {
             var people = _context.People
                 .Include(_ => _.City)
-                .OrderByDescending(_ => _.Id);
+                .OrderByDescending(_ => _.Id)
+                .AsQueryable();
 
-            return View(new StatisticModel
+            if (isOnlyMale is not null)
             {
-                People = people
+                people = people.Where(_ => _.IsMale == isOnlyMale);
+            }
+
+            var peopleModel = people
                 .Skip(PageInfo.PageSize * pageNumber)
                 .Take(PageInfo.PageSize)
                 .Select(_ => new PersonModel
@@ -43,14 +50,20 @@ namespace StatisticVisualizer.Controllers
                     City = _.City.Name,
                     IsMale = _.IsMale,
                     Age = _.Age
-                }),
+                });
+
+            return View(new StatisticModel
+            {
+                People = peopleModel,
                 PageInfo = new PageInfo
                 {
-                    TotalItems = _context.People.Count(),
+                    TotalItems = people.Count(),
                     PageNumber = pageNumber,
+                    TotalPages = (int)Math.Ceiling((decimal)people.Count() / PageInfo.PageSize) - 1
                 },
                 MenCount = _context.People.Count(_ => _.IsMale),
-                WomenCount = _context.People.Count(_ => !_.IsMale)
+                WomenCount = _context.People.Count(_ => !_.IsMale),
+                IsOnlyMale = isOnlyMale
             });
         }
 

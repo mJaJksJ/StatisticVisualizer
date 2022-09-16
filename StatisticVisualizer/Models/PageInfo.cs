@@ -23,6 +23,6 @@ namespace StatisticVisualizer.Models
         /// <summary>
         /// Количество страниц
         /// </summary>
-        public int TotalPages => (int)Math.Ceiling((decimal)TotalItems / PageSize) - 1;
+        public int TotalPages { get; set; }
     }
 }

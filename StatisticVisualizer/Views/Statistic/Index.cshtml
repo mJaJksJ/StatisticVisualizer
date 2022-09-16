@@ -37,35 +37,55 @@
                             @for (var i = 0; i <= (Model?.PageInfo?.TotalPages ?? 0); i++)
                             {
                                 var classStr = Model?.PageInfo?.PageNumber == i ? "btn btn-default selected btn-primary" : "btn btn-default";
-                                <a class=@classStr asp-area="" asp-controller="Statistic" asp-action="Index" asp-route-pageNumber=@i>@i</a>
+                                <a class=@classStr asp-area="" asp-controller="Statistic" asp-action="Index" asp-route-pageNumber=@i asp-route-isOnlyMale=@Model?.IsOnlyMale>@i</a>
                             }
                         </tfoot>
                     </table>
                 </td>
                 <td>
+                    <div style="width: 300px; height: 200px;">
+                        <canvas id="oilChart" width="500" height="400"></canvas>
+                    </div>
+
                     <script>
-                        google.load("visualization", "1", { packages: ["corechart"] });
-                        google.setOnLoadCallback(drawChart);
-                        function drawChart() {
-                            let total = @Model.MenCount + @Model.WomenCount;
-                            let men =  @Model.MenCount / Number.parseFloat(total);
-                            let women = 1 - men;
-                            let data = google.visualization.arrayToDataTable([
-                                ['Пол', '%'],
-                                ['М', men],
-                                ['Ж', women],
-                            ]);
-                            let options = {
-                                title: 'Пол',
-                                is3D: false,
-                                pieResidueSliceLabel: 'Другой',
-                                colors: ['#5B9BD5', '#C56BAE'],
-                            };
-                            let chart = new google.visualization.PieChart(document.getElementById('chart'));
-                            chart.draw(data, options);
-                        }
+                        var oilCanvas = document.getElementById("oilChart");
+                        Chart.defaults.font.family = "Lato";
+                        Chart.defaults.font.size = 18;
+                        Chart.defaults.color = "black";
+
+                        let total = @Model.MenCount + @Model.WomenCount;
+                        let men = @Model.MenCount / Number.parseFloat(total);
+                        let women = 1 - men;
+                        var oilData = {
+                            labels: [
+                                "М",
+                                "Ж",
+                            ],
+                            datasets: [
+                                {
+                                    data: [men, women],
+                                    backgroundColor: [
+                                        "#5B9BD5",
+                                        "#C56BAE",
+                                    ]
+                                }]
+                        };
+
+                        var pieChart = new Chart(oilCanvas, {
+                            type: 'pie',
+                            data: oilData,
+                            options: {
+                                events: [
+                                    'click'
+                                ],
+                                onClick: function (event, items) {
+                                    let item = items[0];
+                                    window.location.assign("../Statistic/Index?pageNumber=0&isOnlyMale=" + (item.index === 0).toString());
+                                }
+                            }
+                        });
+
                     </script>
-                    <div id="chart" style="width: 500px; height: 400px;"></div>
                 </td>
             </tr>
         </table>

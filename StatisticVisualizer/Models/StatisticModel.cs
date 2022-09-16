@@ -24,5 +24,10 @@ namespace StatisticVisualizer.Models
         /// Количество женщин
         /// </summary>
         public int WomenCount { get; set; }
+
+        /// <summary>
+        /// Фильтрация по полу (null - Ж+М, true - М, false - Ж)
+        /// </summary>
+        public bool? IsOnlyMale { get; set; }
     }
 }
