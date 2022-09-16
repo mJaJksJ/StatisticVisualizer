@@ -13,6 +13,7 @@ namespace StatisticVisualizer.Controllers
     {
         private readonly DatabaseContext _context;
         private readonly IExcelFileService _excelFileService;
+        private string _error = "";
 
         /// <summary>
         /// .ctor
@@ -63,7 +64,8 @@ namespace StatisticVisualizer.Controllers
                 },
                 MenCount = _context.People.Count(_ => _.IsMale),
                 WomenCount = _context.People.Count(_ => !_.IsMale),
-                IsOnlyMale = isOnlyMale
+                IsOnlyMale = isOnlyMale,
+                Error = _error
             });
         }
 
@@ -74,7 +76,7 @@ namespace StatisticVisualizer.Controllers
         [HttpPost]
         public IActionResult Index(IFormFile file)
         {
-            _excelFileService.UploadToDb(file);
+            var (_, _, _error) = _excelFileService.UploadToDb(file);
             return Redirect("/Statistic");
         }
     }

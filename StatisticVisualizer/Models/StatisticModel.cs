@@ -29,5 +29,10 @@ namespace StatisticVisualizer.Models
         /// Фильтрация по полу (null - Ж+М, true - М, false - Ж)
         /// </summary>
         public bool? IsOnlyMale { get; set; }
+
+        /// <summary>
+        /// Ошибка
+        /// </summary>
+        public string Error { get; set; }
     }
 }

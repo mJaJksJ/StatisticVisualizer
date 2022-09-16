@@ -4,6 +4,9 @@
 }
 
 <div>
+    @if(!string.IsNullOrEmpty(Model?.Error)){
+        <script>alert(Model?.Error);</script>
+    }
     <form method="post" enctype="multipart/form-data">
         <p><input type="file" name="file" /></p>
         <p><input type="submit" value="Загрузить" /></p>

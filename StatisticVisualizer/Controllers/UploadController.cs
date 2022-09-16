@@ -39,7 +39,7 @@ namespace StatisticVisualizer.Controllers
             {
                 TotalProcessedRows = total,
                 SuccesedProcessedRows = succes,
-                FileName = file.FileName,
+                FileName = file?.FileName,
                 Error = error
             });
         }

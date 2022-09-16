@@ -90,9 +90,9 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
         /// <inheritdoc/>
         public void EnsureExcelFile(IFormFile file)
         {
-            if (!_excelExtensions.Contains(Path.GetExtension(file.FileName).ToLower()))
+            if (!_excelExtensions.Contains(Path.GetExtension(file?.FileName ?? ".").ToLower()))
             {
-                throw new NotExcelFileException(file.FileName);
+                throw new NotExcelFileException(file?.FileName ?? "");
             }
         }
 
