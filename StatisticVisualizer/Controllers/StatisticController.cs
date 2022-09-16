@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StatisticVisualizer.Models;
 using StatisticVisualizerLib.Database;
+using StatisticVisualizerLib.Services.ExcelFileService;
 
 namespace StatisticVisualizer.Controllers
 {
@@ -11,13 +12,15 @@ namespace StatisticVisualizer.Controllers
     public class StatisticController : Controller
     {
         private readonly DatabaseContext _context;
+        private readonly IExcelFileService _excelFileService;
 
         /// <summary>
         /// .ctor
         /// </summary>
-        public StatisticController(DatabaseContext context)
+        public StatisticController(DatabaseContext context, IExcelFileService excelFileService)
         {
             _context = context;
+            _excelFileService = excelFileService;
         }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace StatisticVisualizer.Controllers
         {
             var people = _context.People
                 .Include(_ => _.City)
-                .OrderBy(_ => _.Id)
+                .OrderByDescending(_ => _.Id)
                 .Skip(PageInfo.PageSize * pageNumber)
                 .Take(PageInfo.PageSize)
                 .Select(_ => new PersonModel
@@ -47,6 +50,17 @@ namespace StatisticVisualizer.Controllers
                     PageNumber = pageNumber,
                 }
             });
+        }
+
+        /// <summary>
+        /// Получение файла
+        /// </summary>
+        /// <param name="file">Загружаемый файл</param>
+        [HttpPost]
+        public IActionResult Index(IFormFile file)
+        {
+            _excelFileService.UploadToDb(file);
+            return Redirect("/Statistic");
         }
     }
 }
