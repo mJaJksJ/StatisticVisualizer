@@ -1,12 +1,42 @@
+@model UploadModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Загрузка файла";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Загрузка Excel файла</h1>
+    <p>
+        <h3>
+            Допустимые форматы:<br/>
+        </h3>
+        <i>
+            .xls, .xlsx
+        </i>
+    </p>
+    <p>
+        В таблице должны быть столбцы с именем, городом, полом и возрастом.
+        Для определения принадлежности столбцов в первой строке таблицы должны быть ячейки с названиями <b>Имя</b>, <b>Город</b>, <b>Пол</b>, <b>Возраст</b> <br />
+        <i>
+            * Пол - имеет значения "М" или "Ж" <br />
+            * Возраст - целое число
+        </i>
+    </p>
     <form method="post" enctype="multipart/form-data">
         <p><input type="file" name="file" /></p>
-        <input type="submit" value="Загрузить" />
+        <p><input type="submit" value="Загрузить" /></p>
+        <p>
+            @if(Model != null)
+            {
+                <span>Файл <b>@Model.FileName</b><br></span>
+                @if (string.IsNullOrEmpty(Model.Error))
+                {
+                    <span>Всего строк обработано: @Model.TotalProcessedRows<br/>Успешно: @Model.SuccesedProcessedRows</span>
+                }
+                else
+                {
+                    <span><b>Error:</b>@Model.Error</span>
+                }
+            }
+        </p>
     </form>
 </div>

@@ -11,7 +11,7 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
     /// <inheritdoc cref="IExcelFileService"/>
     public class ExcelFileService : IExcelFileService
     {
-        private readonly string[] _excelExtensions = new[] { "xls", "xlsx" };
+        private readonly string[] _excelExtensions = new[] { ".xls", ".xlsx" };
         private readonly DatabaseContext _context;
 
         private int _nameIndex;
@@ -28,9 +28,17 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
         }
 
         /// <inheritdoc/>
-        public (int allRows, int succesRows) UploadToDb(IFormFile file)
+        public (int allRows, int succesRows, string error) UploadToDb(IFormFile file)
         {
-            EnsureExcelFile(file);
+            try
+            {
+                EnsureExcelFile(file);
+            }
+            catch (NotExcelFileException e)
+            {
+                return (0, 0, e.Message);
+            }
+
             var sheet = InitSheet(file);
             var headerRow = sheet.GetRow(0);
             int cellCount = headerRow.LastCellNum;
@@ -76,7 +84,7 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
                 }
             }
 
-            return (sheet.LastRowNum, successCount);
+            return (sheet.LastRowNum, successCount, "");
         }
 
         /// <inheritdoc/>
@@ -97,9 +105,18 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
 
             var name = row.GetCell(_nameIndex).ToString();
             var city = row.GetCell(_cityIndex).ToString();
-            if (!bool.TryParse(row.GetCell(_isMaleIndex).ToString(), out var isMale))
+
+            bool isMale;
+            switch (row.GetCell(_isMaleIndex).ToString())
             {
-                return false;
+                case "М":
+                    isMale = true;
+                    break;
+                case "Ж":
+                    isMale = false;
+                    break;
+                default:
+                    return false;
             }
 
             if (!int.TryParse(row.GetCell(_ageIndex).ToString(), out var age))
@@ -141,6 +158,7 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
                 using (var ms = new MemoryStream())
                 {
                     file.CopyTo(ms);
+                    ms.Position = 0;
                     hssfwb = new HSSFWorkbook(ms);
                 }
 
@@ -152,6 +170,7 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
                 using (var ms = new MemoryStream())
                 {
                     file.CopyTo(ms);
+                    ms.Position = 0;
                     xssfwb = new XSSFWorkbook(ms);
                 }
 

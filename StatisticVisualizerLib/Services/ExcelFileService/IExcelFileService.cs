@@ -8,11 +8,11 @@ namespace StatisticVisualizerLib.Services.ExcelFileService
     public interface IExcelFileService
     {
         /// <summary>
-        /// Загрузить файл в БД
-        /// </summary>
+        /// Загрузить файл в БД <br/>
+        /// <i>Прим.: проверка на эксель-файл встроена в метод<i/>
         /// <param name="file">Файл</param>
-        /// <returns>(Количество обработанных строк, количество успешно обработанных строк)</returns>
-        (int allRows, int succesRows) UploadToDb(IFormFile file);
+        /// <returns>(Количество обработанных строк, количество успешно обработанных строк, сообщение об ошибке)</returns>
+        (int allRows, int succesRows, string error) UploadToDb(IFormFile file);
 
         /// <summary>
         /// Убедиться что файл - эксель

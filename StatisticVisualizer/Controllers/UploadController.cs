@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using StatisticVisualizer.Models;
+using StatisticVisualizerLib.Services.ExcelFileService;
 
 namespace StatisticVisualizer.Controllers
 {
@@ -7,6 +9,16 @@ namespace StatisticVisualizer.Controllers
     /// </summary>
     public class UploadController : Controller
     {
+        private readonly IExcelFileService _excelFileService;
+
+        /// <summary>
+        /// .ctor
+        /// </summary>
+        public UploadController(IExcelFileService excelFileService)
+        {
+            _excelFileService = excelFileService;
+        }
+
         /// <summary>
         /// Страница загрузки файла
         /// </summary>
@@ -24,7 +36,14 @@ namespace StatisticVisualizer.Controllers
         [HttpPost]
         public IActionResult Index(IFormFile file)
         {
-            return Ok();
+            var (total, succes, error) = _excelFileService.UploadToDb(file);
+            return View(new UploadModel
+            {
+                TotalProcessedRows = total,
+                SuccesedProcessedRows = succes,
+                FileName = file.FileName,
+                Error = error
+            });
         }
     }
 }

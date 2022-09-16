@@ -1,15 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using StatisticVisualizer.Database;
+using StatisticVisualizerLib.Database;
+using StatisticVisualizerLib.Services.ExcelFileService;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var dbContext = new Database();
+dbContext.Database.Migrate();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+builder.Services.AddSingleton(dbContext as DatabaseContext);
+builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
 
-var dbContext = new Database();
-dbContext.Database.Migrate();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
