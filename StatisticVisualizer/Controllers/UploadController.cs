@@ -30,7 +30,7 @@ namespace StatisticVisualizer.Controllers
         /// <summary>
         /// Получение файла
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="file">Загружаемый файл</param>
         [HttpPost]
         public IActionResult Index(IFormFile file)
         {
