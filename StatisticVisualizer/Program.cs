@@ -1,4 +1,6 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using StatisticVisualizer.Database;
@@ -55,6 +57,23 @@ dbContext.Database.Migrate();
 
 builder.Services.AddControllersWithViews();
 
+#region swagger settings
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "StatisticVisualizer",
+        Version = "v1"
+    });
+
+    var xmlName = $"{Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location)}.xml";
+    var xmlPath = Path.Combine(DirectoryPaths.WorkingDirectory, xmlName);
+    c.IncludeXmlComments(xmlPath);
+});
+
+#endregion swagger settings
+
 builder.Services.AddSingleton(dbContext as DatabaseContext);
 builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
@@ -67,6 +86,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "StatisticVisualizer"); });
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
