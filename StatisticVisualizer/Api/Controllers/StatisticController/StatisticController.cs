@@ -28,7 +28,7 @@ namespace StatisticVisualizer.Api.Controllers.StatisticController
         /// </summary>
         /// <param name="pageNumber">Номер страницы</param>
         /// <param name="isOnlyMale">Фильтрация по полу (null - Ж+М, true - М, false - Ж)</param>
-        [HttpPost("~/api/v1/upload"), AllowAnonymous]
+        [HttpPost("~/api/v1/statistic"), AllowAnonymous]
         [ProducesResponseType(typeof(StatisticModel), 200)]
         public IActionResult GetStatistic(int pageNumber = 0, bool? isOnlyMale = null)
         {
