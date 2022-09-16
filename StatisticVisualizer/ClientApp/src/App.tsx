@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-
+import React from 'react';
+import { BrowserRouter, Link } from 'react-router-dom';
 import './custom.css'
+import AppRouter from './components/Router/AppRouter';
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
+const App: React.FC = () => {
+  {
     return (
-      <>
+      <BrowserRouter>
         <header>
           <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style={{ 'backgroundColor': '#148F2A' }}>
             <div className="container-fluid">
@@ -19,10 +18,10 @@ export default class App extends Component {
               <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul className="navbar-nav flex-grow-1">
                   <li className="nav-item">
-                    <a className="nav-link text-white">Загрузить файл</a>
+                    <Link to="/upload" className="nav-link text-white">Загрузить файл</Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link text-white">Статистика</a>
+                    <Link to="/statistic" className="nav-link text-white">Статистика</Link>
                   </li>
                 </ul>
               </div>
@@ -30,17 +29,20 @@ export default class App extends Component {
           </nav>
         </header>
 
-        <div class="container">
-          <main role="main" class="pb-3">
+        <div className="container">
+          <main role="main" className="pb-3">
+            <AppRouter />
           </main>
         </div>
 
-        <footer class="border-top footer text-muted">
-          <div class="container">
+        <footer className="border-top footer text-muted">
+          <div className="container">
             &copy; 2022 - StatisticVisualizer - <a href="https://github.com/mJaJksJ">mJaJksJ</a>
           </div>
         </footer>
-      </>
+      </BrowserRouter>
     );
   }
 }
+
+export default App

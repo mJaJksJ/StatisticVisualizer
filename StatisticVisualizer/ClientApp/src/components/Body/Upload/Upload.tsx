@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { ApiViolaTricolor } from '../../../api';
 
 const Upload: React.FC = () => {
+    const api = useRef(new ApiViolaTricolor());
+
     return (
         <>
             <div className="text-center">
@@ -25,7 +28,7 @@ const Upload: React.FC = () => {
                     <p><input type="file" name="file" /></p>
                     <p><input type="submit" value="Загрузить" /></p>
                     <p>
-                        @if(Model != null)
+                        {/*if(Model != null)
                         {
                             <span>Файл <b>@Model.FileName</b><br /></span>
                 @if (string.IsNullOrEmpty(Model.Error))
@@ -36,7 +39,7 @@ const Upload: React.FC = () => {
                         {
                             <span><b>Error:</b>@Model.Error</span>
                         }
-            }
+            }*/}
                     </p>
                 </form>
             </div>
