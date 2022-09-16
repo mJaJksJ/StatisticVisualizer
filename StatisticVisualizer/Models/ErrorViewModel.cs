@@ -8,7 +8,7 @@ namespace StatisticVisualizer.Models
         /// <summary>
         /// Id запроса
         /// </summary>
-        public string? RequestId { get; set; }
+        public string RequestId { get; set; }
 
         /// <summary>
         /// Отображаемое id запроса
