@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/jest": "^29.0.3",
+    "@types/node": "^18.7.18",
+    "@types/react": "^18.0.20",
+    "@types/react-dom": "^18.0.6",
     "bootstrap": "^5.1.3",
     "http-proxy-middleware": "^0.19.1",
     "jquery": "^3.6.0",
@@ -30,16 +34,17 @@
     "workbox-streams": "^5.1.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.1",
     "ajv": "^6.9.1",
     "cross-env": "^7.0.3",
-    "eslint": "^7.25.0",
+    "eslint": "^7.32.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.7.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
     "nan": "^2.14.2",
-    "typescript": "^4.2.4"
+    "typescript": "^4.8.3"
   },
   "scripts": {
     "prestart": "node aspnetcore-https && node aspnetcore-react",
@@ -47,7 +52,8 @@
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "lint": "eslint ./src/",
+    "generate-api": "nswag swagger2tsclient /runtime:NetCore60 /Input:https://localhost:7245/swagger/v1/swagger.json /Output:src/api.ts /InjectionTokenType:InjectionToken /Template:Axios /OperationGenerationMode:SingleClientFromOperationId /ClassName:ApiViolaTricolor"
   },
   "eslintConfig": {
     "extends": [
