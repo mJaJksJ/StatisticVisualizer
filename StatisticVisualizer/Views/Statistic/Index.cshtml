@@ -4,38 +4,70 @@
 }
 
 <div>
-     <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         <p><input type="file" name="file" /></p>
         <p><input type="submit" value="Загрузить" /></p>
-
     </form>
-    <table class="table">
-        <thead>
+    <div>
+        <table>
             <tr>
-                <th>Имя</th>
-                <th>Город</th>
-                <th>Пол</th>
-                <th>Возраст</th>
-            </tr>
+                <td>
+                    <table class="table" style="width: 50vw;">
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Город</th>
+                                <th>Пол</th>
+                                <th>Возраст</th>
+                            </tr>
 
-        </thead>
-        <tbody>
-            @foreach (var p in Model?.People ?? Array.Empty<PersonModel>())
-            {
-                <tr>
-                    <td>@p.Name</td>
-                    <td>@p.City</td>
-                    <td>@p.IsMale</td>
-                    <td>@p.Age</td>
-                </tr>
-            }
-        </tbody>
-        <tfoot class="btn-group">
-            @for (var i = 0; i <= (Model?.PageInfo?.TotalPages ?? 0); i++)
-            {
-                var classStr = Model?.PageInfo?.PageNumber == i ? "btn btn-default selected btn-primary" : "btn btn-default";
-                <a class=@classStr asp-area="" asp-controller="Statistic" asp-action="Index" asp-route-pageNumber=@i>@i</a>
-            }
-        </tfoot>
-    </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in Model?.People ?? Array.Empty<PersonModel>())
+                            {
+                                <tr>
+                                    <td>@p.Name</td>
+                                    <td>@p.City</td>
+                                    <td>@p.IsMale</td>
+                                    <td>@p.Age</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="btn-group">
+                            @for (var i = 0; i <= (Model?.PageInfo?.TotalPages ?? 0); i++)
+                            {
+                                var classStr = Model?.PageInfo?.PageNumber == i ? "btn btn-default selected btn-primary" : "btn btn-default";
+                                <a class=@classStr asp-area="" asp-controller="Statistic" asp-action="Index" asp-route-pageNumber=@i>@i</a>
+                            }
+                        </tfoot>
+                    </table>
+                </td>
+                <td>
+                    <script>
+                        google.load("visualization", "1", { packages: ["corechart"] });
+                        google.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            let total = @Model.MenCount + @Model.WomenCount;
+                            let men =  @Model.MenCount / Number.parseFloat(total);
+                            let women = 1 - men;
+                            let data = google.visualization.arrayToDataTable([
+                                ['Пол', '%'],
+                                ['М', men],
+                                ['Ж', women],
+                            ]);
+                            let options = {
+                                title: 'Пол',
+                                is3D: false,
+                                pieResidueSliceLabel: 'Другой',
+                                colors: ['#5B9BD5', '#C56BAE'],
+                            };
+                            let chart = new google.visualization.PieChart(document.getElementById('chart'));
+                            chart.draw(data, options);
+                        }
+                    </script>
+                    <div id="chart" style="width: 500px; height: 400px;"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>

@@ -30,7 +30,11 @@ namespace StatisticVisualizer.Controllers
         {
             var people = _context.People
                 .Include(_ => _.City)
-                .OrderByDescending(_ => _.Id)
+                .OrderByDescending(_ => _.Id);
+
+            return View(new StatisticModel
+            {
+                People = people
                 .Skip(PageInfo.PageSize * pageNumber)
                 .Take(PageInfo.PageSize)
                 .Select(_ => new PersonModel
@@ -39,16 +43,14 @@ namespace StatisticVisualizer.Controllers
                     City = _.City.Name,
                     IsMale = _.IsMale,
                     Age = _.Age
-                });
-
-            return View(new StatisticModel
-            {
-                People = people,
+                }),
                 PageInfo = new PageInfo
                 {
                     TotalItems = _context.People.Count(),
                     PageNumber = pageNumber,
-                }
+                },
+                MenCount = _context.People.Count(_ => _.IsMale),
+                WomenCount = _context.People.Count(_ => !_.IsMale)
             });
         }
 
