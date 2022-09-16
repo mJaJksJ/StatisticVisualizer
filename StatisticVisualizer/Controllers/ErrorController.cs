@@ -4,9 +4,15 @@ using StatisticVisualizer.Models;
 
 namespace StatisticVisualizer.Controllers
 {
+    /// <summary>
+    /// Контроллер страницы ошибки
+    /// </summary>
     public class ErrorController : Controller
     {
-
+        /// <summary>
+        /// Страница ошибки
+        /// </summary>
+        /// <returns></returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
