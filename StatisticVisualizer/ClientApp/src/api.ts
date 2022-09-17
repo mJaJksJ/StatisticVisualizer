@@ -29,7 +29,7 @@ export class ApiViolaTricolor {
      * @param isOnlyMale (optional) Фильтрация по полу (null - Ж+М, true - М, false - Ж)
      * @return Success
      */
-    statistic(pageNumber: number | undefined, isOnlyMale: boolean | undefined , cancelToken?: CancelToken | undefined): Promise<StatisticModel> {
+    statistic(pageNumber: number | undefined, isOnlyMale: boolean | undefined, cancelToken?: CancelToken | undefined): Promise<StatisticModel> {
         let url_ = this.baseUrl + "/api/v1/statistic?";
         if (pageNumber === null)
             throw new Error("The parameter 'pageNumber' cannot be null.");
@@ -74,7 +74,7 @@ export class ApiViolaTricolor {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200  = _responseText;
+            let resultData200 = _responseText;
             result200 = StatisticModel.fromJS(resultData200);
             return Promise.resolve<StatisticModel>(result200);
 
@@ -90,7 +90,7 @@ export class ApiViolaTricolor {
      * @param file (optional) 
      * @return Success
      */
-    upload(file: FileParameter | undefined , cancelToken?: CancelToken | undefined): Promise<UploadModel> {
+    upload(file: FileParameter | undefined, cancelToken?: CancelToken | undefined): Promise<UploadModel> {
         let url_ = this.baseUrl + "/api/v1/upload";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -134,7 +134,7 @@ export class ApiViolaTricolor {
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
-            let resultData200  = _responseText;
+            let resultData200 = _responseText;
             result200 = UploadModel.fromJS(resultData200);
             return Promise.resolve<UploadModel>(result200);
 
